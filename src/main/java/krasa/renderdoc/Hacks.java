@@ -1,4 +1,4 @@
-package krasa.visualvm;
+package krasa.renderdoc;
 
 /**
  * @author Vojtech Krasa

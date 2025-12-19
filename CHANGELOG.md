@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Changed identity from VisualVMLauncher to RenderDocLauncher
 
 ## [1.23.0-IJ2023.3] - 2024-01-31
 - 2024.1 EAP compatibility
@@ -35,7 +36,7 @@
     <br>0.1 (2012-11-05)
     <br>- Initial release
 
-[Unreleased]: https://github.com/krasa/VisualVMLauncher/compare/v1.23.0-IJ2023.3...HEAD
-[1.23.0-IJ2023.3]: https://github.com/krasa/VisualVMLauncher/compare/v1.22.223...v1.23.0-IJ2023.3
-[1.22.223]: https://github.com/krasa/VisualVMLauncher/compare/v1.21.0...v1.22.223
-[1.21.0]: https://github.com/krasa/VisualVMLauncher/commits/v1.21.0
+[Unreleased]: https://github.com/gamatron/RenderDocLauncher/compare/v1.23.0-IJ2023.3...HEAD
+[1.23.0-IJ2023.3]: https://github.com/gamatron/RenderDocLauncher/compare/v1.22.223...v1.23.0-IJ2023.3
+[1.22.223]: https://github.com/gamatron/RenderDocLauncher/compare/v1.21.0...v1.22.223
+[1.21.0]: https://github.com/gamatron/RenderDocLauncher/commits/v1.21.0

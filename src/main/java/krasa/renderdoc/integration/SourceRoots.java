@@ -1,4 +1,4 @@
-package krasa.visualvm.integration;
+package krasa.renderdoc.integration;
 
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -19,7 +19,7 @@ public class SourceRoots {
 
 	@NotNull
 	static String resolve(Project project, Module runConfigurationModule) {
-		//https://visualvm.github.io/sourcessupport.html
+		//https://renderdoc.github.io/sourcessupport.html
 		// --source-roots="c:\sources\root1;c:\sources\root2[subpaths=src:test\src]"
 
 		SourceRoots sourceRoots = new SourceRoots();
@@ -34,7 +34,7 @@ public class SourceRoots {
 			}
 		}
 
-		return sourceRoots.getVisualVmParameter();
+		return sourceRoots.getRenderDocParameter();
 	}
 
 
@@ -95,7 +95,7 @@ public class SourceRoots {
 		}
 	}
 
-	public String getVisualVmParameter() {
+	public String getRenderDocParameter() {
 		StringBuilder sb = new StringBuilder();
 		for (ModuleContentRoots sourceRoot : moduleContentRoots) {
 			sourceRoot.appendTo(sb);

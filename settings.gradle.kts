@@ -1,1 +1,1 @@
-rootProject.name = "VisualVMLauncher"
+rootProject.name = "RenderDocLauncher"

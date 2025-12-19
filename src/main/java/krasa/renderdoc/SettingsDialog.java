@@ -1,4 +1,4 @@
-package krasa.visualvm;
+package krasa.renderdoc;
 
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
@@ -24,13 +24,13 @@ import java.text.NumberFormat;
 import static com.intellij.ide.BrowserUtil.browse;
 
 public class SettingsDialog {
-	private JTextField visualVmExecutable;
+	private JTextField renderDocExecutable;
 	private JComponent rootComponent;
 	private JButton browseButton;
 	private JLabel validationMessageLabel;
 	private JFormattedTextField duration;
 	private JLabel durationLabel;
-	private JFormattedTextField delayForStgartingVisualVM;
+	private JFormattedTextField delayForStgartingRenderDoc;
 	private JTextField jdkHome;
 	private JButton browseJdkHome;
 	private JCheckBox openOnTabForCheckBox;
@@ -49,10 +49,10 @@ public class SettingsDialog {
 			browse(linkLabel1.getText());
 		}, null);
 		duration.setFormatterFactory(getDefaultFormatterFactory());
-		delayForStgartingVisualVM.setFormatterFactory(getDefaultFormatterFactory());
+		delayForStgartingRenderDoc.setFormatterFactory(getDefaultFormatterFactory());
 
 
-		browseButton.addActionListener(e -> browseForFile(visualVmExecutable));
+		browseButton.addActionListener(e -> browseForFile(renderDocExecutable));
 		browseJdkHome.addActionListener(e -> {
 			JavaSdk instance = com.intellij.openapi.projectRoots.impl.JavaSdkImpl.getInstance();
 
@@ -65,7 +65,7 @@ public class SettingsDialog {
 				jdkHome.setText(file.getPath());
 			}
 		});
-		visualVmExecutable.getDocument().addDocumentListener(new DocumentListener() {
+		renderDocExecutable.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
@@ -87,7 +87,7 @@ public class SettingsDialog {
 
 					@Override
 					public void run() {
-						setValidationMessage(visualVmExecutable.getText());
+						setValidationMessage(renderDocExecutable.getText());
 					}
 				});
 			}
@@ -95,7 +95,7 @@ public class SettingsDialog {
 
 		linkLabel.setListener(
 				(aSource, aLinkData) -> browse((String) aLinkData),
-				"https://visualvm.github.io/sourcessupport.html");
+				"https://renderdoc.github.io/sourcessupport.html");
 	}
 
 
@@ -112,7 +112,7 @@ public class SettingsDialog {
 		final FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor();
 		descriptor.setHideIgnored(true);
 
-		descriptor.setTitle("Select VisualVM Executable");
+		descriptor.setTitle("Select RenderDoc Executable");
 		String text = target.getText();
 		final VirtualFile toSelect = text == null || text.isEmpty() ? null
 				: LocalFileSystem.getInstance().findFileByPath(text);
@@ -125,10 +125,10 @@ public class SettingsDialog {
 		}
 	}
 
-	private void setValidationMessage(String visualVmExecutable1) {
-		if (StringUtils.isBlank(visualVmExecutable1)) {
+	private void setValidationMessage(String renderDocExecutable1) {
+		if (StringUtils.isBlank(renderDocExecutable1)) {
 			validationMessageLabel.setText("Path is required");
-		} else if (!new File(visualVmExecutable1).exists()) {
+		} else if (!new File(renderDocExecutable1).exists()) {
 			validationMessageLabel.setText("File does not exists");
 		} else {
 			validationMessageLabel.setText("");
@@ -141,13 +141,13 @@ public class SettingsDialog {
 
 	public void setDataCustom(PluginSettings settings) {
 		setData(settings);
-		setValidationMessage(settings.getVisualVmExecutable());
+		setValidationMessage(settings.getRenderDocExecutable());
 	}
 
 	public void setData(PluginSettings data) {
-		visualVmExecutable.setText(data.getVisualVmExecutable());
+		renderDocExecutable.setText(data.getRenderDocExecutable());
 		duration.setText(data.getDurationToSetContextToButton());
-		delayForStgartingVisualVM.setText(data.getDelayForVisualVMStart());
+		delayForStgartingRenderDoc.setText(data.getDelayForRenderDocStart());
 		jdkHome.setText(data.getJdkHome());
 		openOnTabForCheckBox.setSelected(data.isUseTabIndex());
 		tabIndex.setText(data.getTabIndex());
@@ -157,9 +157,9 @@ public class SettingsDialog {
 	}
 
 	public void getData(PluginSettings data) {
-		data.setVisualVmExecutable(visualVmExecutable.getText());
+		data.setRenderDocExecutable(renderDocExecutable.getText());
 		data.setDurationToSetContextToButton(duration.getText());
-		data.setDelayForVisualVMStart(delayForStgartingVisualVM.getText());
+		data.setDelayForRenderDocStart(delayForStgartingRenderDoc.getText());
 		data.setJdkHome(jdkHome.getText());
 		data.setUseTabIndex(openOnTabForCheckBox.isSelected());
 		data.setTabIndex(tabIndex.getText());
@@ -169,11 +169,11 @@ public class SettingsDialog {
 	}
 
 	public boolean isModified(PluginSettings data) {
-		if (visualVmExecutable.getText() != null ? !visualVmExecutable.getText().equals(data.getVisualVmExecutable()) : data.getVisualVmExecutable() != null)
+		if (renderDocExecutable.getText() != null ? !renderDocExecutable.getText().equals(data.getRenderDocExecutable()) : data.getRenderDocExecutable() != null)
 			return true;
 		if (duration.getText() != null ? !duration.getText().equals(data.getDurationToSetContextToButton()) : data.getDurationToSetContextToButton() != null)
 			return true;
-		if (delayForStgartingVisualVM.getText() != null ? !delayForStgartingVisualVM.getText().equals(data.getDelayForVisualVMStart()) : data.getDelayForVisualVMStart() != null)
+		if (delayForStgartingRenderDoc.getText() != null ? !delayForStgartingRenderDoc.getText().equals(data.getDelayForRenderDocStart()) : data.getDelayForRenderDocStart() != null)
 			return true;
 		if (jdkHome.getText() != null ? !jdkHome.getText().equals(data.getJdkHome()) : data.getJdkHome() != null)
 			return true;

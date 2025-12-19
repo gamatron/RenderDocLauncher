@@ -1,4 +1,4 @@
-package krasa.visualvm.action;
+package krasa.renderdoc.action;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.project.DumbAwareAction;

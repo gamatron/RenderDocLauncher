@@ -1,4 +1,4 @@
-package krasa.visualvm.action;
+package krasa.renderdoc.action;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -15,9 +15,9 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.ui.popup.ListPopup;
 import com.intellij.openapi.vfs.VirtualFile;
-import krasa.visualvm.ApplicationSettingsService;
-import krasa.visualvm.PluginSettings;
-import krasa.visualvm.integration.VisualVMHelper;
+import krasa.renderdoc.ApplicationSettingsService;
+import krasa.renderdoc.PluginSettings;
+import krasa.renderdoc.integration.RenderDocHelper;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +25,7 @@ import java.awt.event.InputEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StartVisualVMMainToolbarAction extends MyDumbAwareAction {
+public class StartRenderDocMainToolbarAction extends MyDumbAwareAction {
 
 	public void actionPerformed(AnActionEvent e) {
 		boolean ok = checkVisualVmExecutable();
@@ -35,14 +35,14 @@ public class StartVisualVMMainToolbarAction extends MyDumbAwareAction {
 
 		DefaultActionGroup defaultActionGroup = new DefaultActionGroup();
 		defaultActionGroup.add(new MyDumbAwareAction("No JDK (system default)", null));
-//		defaultActionGroup.add(new FocusVisualVMAction("Focus VisualVM", null, null));
+//		defaultActionGroup.add(new FocusRenderDocAction("Focus RenderDoc", null, null));
 		defaultActionGroup.add(new Separator());
 
 		Set<String> homes = jdkHomes();
 
 		homes.stream().sorted().forEach(o -> defaultActionGroup.add(new MyDumbAwareAction(o, o)));
 
-		ListPopup popup = JBPopupFactory.getInstance().createActionGroupPopup("Select JDK for --jdkhome VisualVM parameter", defaultActionGroup, e.getDataContext(), JBPopupFactory.ActionSelectionAid.ALPHA_NUMBERING, true, (Runnable) null, -1);
+		ListPopup popup = JBPopupFactory.getInstance().createActionGroupPopup("Select JDK for --jdkhome RenderDoc parameter", defaultActionGroup, e.getDataContext(), JBPopupFactory.ActionSelectionAid.ALPHA_NUMBERING, true, (Runnable) null, -1);
 		InputEvent inputEvent = e.getInputEvent();
 		if (inputEvent != null) {
 			popup.showInCenterOf(inputEvent.getComponent());
@@ -74,17 +74,17 @@ public class StartVisualVMMainToolbarAction extends MyDumbAwareAction {
 
 	private boolean checkVisualVmExecutable() {
 		PluginSettings state = ApplicationSettingsService.getInstance().getState();
-		String visualVmPath = state.getVisualVmExecutable();
-		if (org.apache.commons.lang.StringUtils.isBlank(visualVmPath)) {
+		String renderDocPath = state.getRenderDocExecutable();
+		if (org.apache.commons.lang.StringUtils.isBlank(renderDocPath)) {
 			final FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor();
 			descriptor.setHideIgnored(true);
 
-			descriptor.setTitle("Select VisualVM Executable");
+			descriptor.setTitle("Select RenderDoc Executable");
 			Project defaultProject = ProjectManager.getInstance().getDefaultProject();
 			VirtualFile virtualFile = FileChooser.chooseFile(descriptor, defaultProject, null);
 			if (virtualFile != null) {
 				String path = virtualFile.getPath();
-				state.setVisualVmExecutable(path);
+				state.setRenderDocExecutable(path);
 			} else {
 				return false;
 			}
@@ -103,7 +103,7 @@ public class StartVisualVMMainToolbarAction extends MyDumbAwareAction {
 
 		@Override
 		public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
-			VisualVMHelper.startVisualVM(anActionEvent.getProject(), homePath);
+			RenderDocHelper.startRenderDoc(anActionEvent.getProject(), homePath);
 		}
 	}
 }

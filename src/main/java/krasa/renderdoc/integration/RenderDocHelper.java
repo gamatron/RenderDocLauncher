@@ -22,7 +22,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package krasa.visualvm.integration;
+package krasa.renderdoc.integration;
 
 import com.intellij.notification.*;
 import com.intellij.openapi.application.ApplicationManager;
@@ -34,9 +34,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.system.CpuArch;
-import krasa.visualvm.ApplicationSettingsService;
-import krasa.visualvm.LogHelper;
-import krasa.visualvm.PluginSettings;
+import krasa.renderdoc.ApplicationSettingsService;
+import krasa.renderdoc.LogHelper;
+import krasa.renderdoc.PluginSettings;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,47 +49,47 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-public final class VisualVMHelper {
-	private static final Logger log = Logger.getInstance(VisualVMHelper.class.getName());
+public final class RenderDocHelper {
+	private static final Logger log = Logger.getInstance(RenderDocHelper.class.getName());
 
-	public static void startVisualVM(VisualVMContext vmContext, Project project, Object thisInstance) {
+	public static void startRenderDoc(RenderDocContext vmContext, Project project, Object thisInstance) {
 		if (vmContext == null) {
-			log.warn("VisualVMContext is null");
+			log.warn("RenderDocContext is null");
 			return;
 		}
-		VisualVMHelper.openInVisualVM(vmContext.getAppId(), vmContext.getJdkPath(), vmContext.getModule(), project, thisInstance);
+		RenderDocHelper.openInRenderDoc(vmContext.getAppId(), vmContext.getJdkPath(), vmContext.getModule(), project, thisInstance);
 	}
 
 	public static long getNextID() {
 		return System.nanoTime();
 	}
 
-	public static void startVisualVM(Project project, String jdkHome_doNotOverride) {
+	public static void startRenderDoc(Project project, String jdkHome_doNotOverride) {
 		PluginSettings state = ApplicationSettingsService.getInstance().getState();
 
-		String visualVmPath = state.getVisualVmExecutable();
-		if (!isValidPath(visualVmPath)) {
-			NotificationGroup group = NotificationGroupManager.getInstance().getNotificationGroup("VisualVMLauncher");
-			Notification notification = group.createNotification("Path to VisualVM is not valid, path='" + visualVmPath + "'", NotificationType.ERROR);
+		String renderDocPath = state.getRenderDocExecutable();
+		if (!isValidPath(renderDocPath)) {
+			NotificationGroup group = NotificationGroupManager.getInstance().getNotificationGroup("RenderDocLauncher");
+			Notification notification = group.createNotification("Path to RenderDoc is not valid, path='" + renderDocPath + "'", NotificationType.ERROR);
 			ApplicationManager.getApplication().invokeLater(() -> Notifications.Bus.notify(notification));
 		} else {
 			try {
 				if (StringUtils.isBlank(jdkHome_doNotOverride)) {
-					new VisualVMProcess(project, visualVmPath).run();
+					new RenderDocProcess(project, renderDocPath).run();
 				} else {
-					new VisualVMProcess(project, visualVmPath, "--jdkhome", jdkHome_doNotOverride).run();
+					new RenderDocProcess(project, renderDocPath, "--jdkhome", jdkHome_doNotOverride).run();
 				}
 			} catch (IOException e) {
-				throw new RuntimeException("visualVmPath=" + visualVmPath + "; jdkHome=" + jdkHome_doNotOverride, e);
+				throw new RuntimeException("renderDocPath=" + renderDocPath + "; jdkHome=" + jdkHome_doNotOverride, e);
 			}
 		}
 
 	}
 
-	public static void openInVisualVM(long id, String jdkHome, Module module, Project project, Object thisInstance) {
+	public static void openInRenderDoc(long id, String jdkHome, Module module, Project project, Object thisInstance) {
 		PluginSettings pluginSettings = ApplicationSettingsService.getInstance().getState();
 
-		String visualVmPath = pluginSettings.getVisualVmExecutable();
+		String renderDocPath = pluginSettings.getRenderDocExecutable();
 		String customJdkHome = pluginSettings.getJdkHome();
 		boolean useModuleJdk = pluginSettings.isUseModuleJdk();
 		boolean sourceConfig = pluginSettings.isSourceConfig();
@@ -107,20 +107,20 @@ public final class VisualVMHelper {
 			idString += "@" + pluginSettings.getTabIndex();
 		}
 
-		if (!isValidPath(visualVmPath)) {
-			NotificationGroup group = NotificationGroupManager.getInstance().getNotificationGroup("VisualVMLauncher");
-			Notification myNotification = group.createNotification("Path to VisualVM is not valid, path='" + visualVmPath + "'", NotificationType.ERROR);
+		if (!isValidPath(renderDocPath)) {
+			NotificationGroup group = NotificationGroupManager.getInstance().getNotificationGroup("RenderDocLauncher");
+			Notification myNotification = group.createNotification("Path to RenderDoc is not valid, path='" + renderDocPath + "'", NotificationType.ERROR);
 			ApplicationManager.getApplication().invokeLater(() -> Notifications.Bus.notify(myNotification));
 		} else {
-			run(jdkHome, project, visualVmPath, idString, sourceConfig, module, thisInstance);
+			run(jdkHome, project, renderDocPath, idString, sourceConfig, module, thisInstance);
 		}
 	}
 
-	private static void run(String jdkHome, Project project, String visualVmPath, String idString, boolean sourceConfig, Module module, Object thisInstance) {
-		LogHelper.print("starting VisualVM with id=" + idString, thisInstance);
+	private static void run(String jdkHome, Project project, String renderDocPath, String idString, boolean sourceConfig, Module module, Object thisInstance) {
+		LogHelper.print("starting RenderDoc with id=" + idString, thisInstance);
 		List<String> cmds = new ArrayList<>();
 		try {
-			cmds.add(visualVmPath);
+			cmds.add(renderDocPath);
 			if (!StringUtils.isBlank(jdkHome)) {
 				cmds.add("--jdkhome");
 				cmds.add(jdkHome);
@@ -135,13 +135,13 @@ public final class VisualVMHelper {
 					log.error(e);
 				}
 			}
-			new VisualVMProcess(project, cmds.toArray(new String[0])).run();
+			new RenderDocProcess(project, cmds.toArray(new String[0])).run();
 		} catch (IOException e) {
 			if (sourceConfig) {
 				boolean contains = e.getMessage().contains("The filename or extension is too long");
 				if (contains) {
-					log.error("Please disable 'Integrate with VisualVM-GoToSource plugin' option at 'File | Settings | Other Settings | VisualVM Launcher'.\nThe command was too long: " + cmds.toString().length(), e);
-					run(jdkHome, project, visualVmPath, idString, false, module, thisInstance);
+					log.error("Please disable 'Integrate with RenderDoc-GoToSource plugin' option at 'File | Settings | Other Settings | RenderDoc Launcher'.\nThe command was too long: " + cmds.toString().length(), e);
+					run(jdkHome, project, renderDocPath, idString, false, module, thisInstance);
 					return;
 				}
 			}
@@ -163,7 +163,7 @@ public final class VisualVMHelper {
 			}
 		}
 
-		File tempFile = FileUtil.createTempFile("visualVmConfig", ".properties");
+		File tempFile = FileUtil.createTempFile("renderDocConfig", ".properties");
 		try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8")) {
 			props.store(osw, null);
 		} catch (IOException e) {
@@ -189,17 +189,17 @@ public final class VisualVMHelper {
 		}
 	}
 
-	public static boolean isValidPath(String visualVmPath) {
-		return !StringUtils.isBlank(visualVmPath) && new File(visualVmPath).exists();
+	public static boolean isValidPath(String renderDocPath) {
+		return !StringUtils.isBlank(renderDocPath) && new File(renderDocPath).exists();
 	}
 
 
-	static class VisualVMProcess {
+	static class RenderDocProcess {
 
 		private final Project project;
 		private final String[] cmds;
 
-		public VisualVMProcess(Project project, String... cmds) {
+		public RenderDocProcess(Project project, String... cmds) {
 			this.project = project;
 			this.cmds = cmds;
 		}
@@ -213,7 +213,7 @@ public final class VisualVMHelper {
 				cmd.add(settings.getLaf());
 			}
 
-			log.info("Starting VisualVM with parameters:" + cmd);
+			log.info("Starting RenderDoc with parameters:" + cmd);
 
 			ProcessBuilder processBuilder = new ProcessBuilder(cmd);
 			//todo does not work
@@ -237,9 +237,9 @@ public final class VisualVMHelper {
 //					if (process.exitValue() != 0) {
 //						String err = new String(process.getErrorStream().readAllBytes(), "UTF-8");
 //						if (StringUtils.isNotBlank(err)) {
-//							String message = "VisualVM exited with code: " + process.exitValue() + ".\nError: " + err;
+//							String message = "RenderDoc exited with code: " + process.exitValue() + ".\nError: " + err;
 //							SwingUtilities.invokeLater(() ->
-//								Messages.showErrorDialog(project, message, "VisualVM Launcher"));
+//								Messages.showErrorDialog(project, message, "RenderDoc Launcher"));
 //							log.warn(message);
 //						}
 //
@@ -252,19 +252,19 @@ public final class VisualVMHelper {
 
 	}
 
-	public static void executeVisualVM(Project project, @NotNull String commandLineAction) {
+	public static void executeRenderDoc(Project project, @NotNull String commandLineAction) {
 		PluginSettings state = ApplicationSettingsService.getInstance().getState();
 //todo needs sdk
-		String visualVmPath = state.getVisualVmExecutable();
-		if (!isValidPath(visualVmPath)) {
-			NotificationGroup group = NotificationGroupManager.getInstance().getNotificationGroup("VisualVMLauncher");
-			Notification notification = group.createNotification("Path to VisualVM is not valid, path='" + visualVmPath + "'", NotificationType.ERROR);
+		String renderDocPath = state.getRenderDocExecutable();
+		if (!isValidPath(renderDocPath)) {
+			NotificationGroup group = NotificationGroupManager.getInstance().getNotificationGroup("RenderDocLauncher");
+			Notification notification = group.createNotification("Path to RenderDoc is not valid, path='" + renderDocPath + "'", NotificationType.ERROR);
 			ApplicationManager.getApplication().invokeLater(() -> Notifications.Bus.notify(notification));
 		} else {
 			try {
-				new VisualVMProcess(project, visualVmPath, commandLineAction).run();
+				new RenderDocProcess(project, renderDocPath, commandLineAction).run();
 			} catch (IOException e) {
-				throw new RuntimeException("visualVmPath=" + visualVmPath + "; commandLineAction=" + commandLineAction, e);
+				throw new RuntimeException("renderDocPath=" + renderDocPath + "; commandLineAction=" + commandLineAction, e);
 			}
 		}
 

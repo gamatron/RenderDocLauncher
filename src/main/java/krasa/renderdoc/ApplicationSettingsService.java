@@ -1,4 +1,4 @@
-package krasa.visualvm;
+package krasa.renderdoc;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
@@ -7,7 +7,7 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
-@State(name = "VisualVMLauncher", storages = {@Storage("VisualVMLauncher.xml")})
+@State(name = "RenderDocLauncher", storages = {@Storage("RenderDocLauncher.xml")})
 public class ApplicationSettingsService implements PersistentStateComponent<PluginSettings> {
 	private static final Logger log = Logger.getInstance(ApplicationSettingsService.class.getName());
 
@@ -19,7 +19,7 @@ public class ApplicationSettingsService implements PersistentStateComponent<Plug
 
 	@NotNull
 	public String getComponentName() {
-		return "VisualVMLauncher";
+		return "RenderDocLauncher";
 	}
 
 
