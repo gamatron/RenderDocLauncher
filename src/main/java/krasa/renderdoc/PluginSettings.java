@@ -1,12 +1,12 @@
-package krasa.visualvm;
+package krasa.renderdoc;
 
-import krasa.visualvm.integration.VisualVMHelper;
+import krasa.renderdoc.integration.RenderDocHelper;
 
 public class PluginSettings {
 
-	private String visualVmExecutable;
+	private String renderDocExecutable;
 	private String durationToSetContextToButton = "10000";
-	private String delayForVisualVMStart = "10000";
+	private String delayForRenderDocStart = "10000";
 	private String jdkHome;
 	private boolean useTabIndex;
 	private String tabIndex = "2";
@@ -15,17 +15,17 @@ public class PluginSettings {
 	private String laf = "";
 
 
-	public String getVisualVmExecutable() {
-		return visualVmExecutable;
+	public String getRenderDocExecutable() {
+		return renderDocExecutable;
 	}
 
-	public void setVisualVmExecutable(final String visualVmExecutable) {
-		this.visualVmExecutable = visualVmExecutable;
+	public void setRenderDocExecutable(final String renderDocExecutable) {
+		this.renderDocExecutable = renderDocExecutable;
 	}
 
 
 	public static boolean isValid(PluginSettings state) {
-		return state != null && VisualVMHelper.isValidPath(state.getVisualVmExecutable());
+		return state != null && RenderDocHelper.isValidPath(state.getRenderDocExecutable());
 	}
 
 	public String getDurationToSetContextToButton() {
@@ -36,20 +36,20 @@ public class PluginSettings {
 		this.durationToSetContextToButton = durationToSetContextToButton;
 	}
 
-	public String getDelayForVisualVMStart() {
-		return delayForVisualVMStart;
+	public String getDelayForRenderDocStart() {
+		return delayForRenderDocStart;
 	}
 
-	public void setDelayForVisualVMStart(String delayForVisualVMStart) {
-		this.delayForVisualVMStart = delayForVisualVMStart;
+	public void setDelayForRenderDocStart(String delayForRenderDocStart) {
+		this.delayForRenderDocStart = delayForRenderDocStart;
 	}
 
 	public long getDurationToSetContextToButtonAsLong() {
 		return Long.parseLong(durationToSetContextToButton);
 	}
 
-	public long getDelayForVisualVMStartAsLong() {
-		return Long.parseLong(delayForVisualVMStart);
+	public long getDelayForRenderDocStartAsLong() {
+		return Long.parseLong(delayForRenderDocStart);
 	}
 
 

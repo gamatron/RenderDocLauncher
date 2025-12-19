@@ -1,17 +1,17 @@
-package krasa.visualvm.executor;
+package krasa.renderdoc.executor;
 
 import javax.swing.*;
 
-import krasa.visualvm.Resources;
+import krasa.renderdoc.Resources;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.intellij.execution.executors.DefaultRunExecutor;
 
-public class RunVisualVMExecutor extends DefaultRunExecutor {
+public class RunRenderDocExecutor extends DefaultRunExecutor {
 
-	public static final String RUN_WITH_VISUAL_VM = "Run with VisualVM";
-	public static final String RUN_WITH_VISUAL_VM1 = "RunWithVisualVM";
+	public static final String RUN_WITH_RENDER_DOC = "Run with RenderDoc";
+	public static final String RUN_WITH_RENDER_DOC1 = "RunWithRenderDoc";
 
 	@NotNull
 	public String getToolWindowId() {
@@ -32,22 +32,22 @@ public class RunVisualVMExecutor extends DefaultRunExecutor {
 	}
 
 	public String getDescription() {
-		return RUN_WITH_VISUAL_VM;
+		return RUN_WITH_RENDER_DOC;
 	}
 
 	@NotNull
 	public String getActionName() {
-		return RUN_WITH_VISUAL_VM1;
+		return RUN_WITH_RENDER_DOC1;
 	}
 
 	@NotNull
 	public String getId() {
-		return RUN_WITH_VISUAL_VM;
+		return RUN_WITH_RENDER_DOC;
 	}
 
 	@NotNull
 	public String getStartActionText() {
-		return RUN_WITH_VISUAL_VM;
+		return RUN_WITH_RENDER_DOC;
 	}
 
 	public String getContextActionId() {

@@ -1,18 +1,18 @@
-package krasa.visualvm.integration;
+package krasa.renderdoc.integration;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 
 /*dirty, but works*/
-public class VisualVMContext {
-	private static final Logger log = Logger.getInstance(VisualVMContext.class.getName());
-	private static volatile VisualVMContext currentlyExecuted;
+public class RenderDocContext {
+	private static final Logger log = Logger.getInstance(RenderDocContext.class.getName());
+	private static volatile RenderDocContext currentlyExecuted;
 
 	protected Long appId;
 	protected Module module;
 	protected String jdkPath;
 
-	public VisualVMContext(Long appId, String jdkPath, Module module) {
+	public RenderDocContext(Long appId, String jdkPath, Module module) {
 		this.appId = appId;
 		this.jdkPath = jdkPath;
 		this.module = module;
@@ -30,14 +30,14 @@ public class VisualVMContext {
 		if (log.isDebugEnabled()) {
 			log.debug("saving context: " + this.toString());
 		}
-		VisualVMContext.currentlyExecuted = this;
+		RenderDocContext.currentlyExecuted = this;
 	}
 
-	public static VisualVMContext load() {
+	public static RenderDocContext load() {
 		return currentlyExecuted;
 	}
 
-	public static boolean isValid(VisualVMContext visualVMContext) {
+	public static boolean isValid(RenderDocContext visualVMContext) {
 		return visualVMContext != null && visualVMContext.getAppId() != null;
 	}
 
@@ -52,7 +52,7 @@ public class VisualVMContext {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("VisualVMContext");
+		sb.append("RenderDocContext");
 		sb.append("{appId=").append(appId);
 		sb.append(", module='").append(module).append('\'');
 //		sb.append(", jdkPath='").append(jdkPath).append('\'');

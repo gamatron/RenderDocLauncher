@@ -1,5 +1,5 @@
 /*
- * This file is part of VisualVM for IDEA
+ * This file is part of RenderDoc for IDEA
  *
  * Copyright (c) 2008, Esko Luontola. All Rights Reserved.
  *
@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package krasa.visualvm.runner;
+package krasa.renderdoc.runner;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.ModuleRunProfile;
@@ -42,21 +42,21 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.target.TargetEnvironmentAwareRunProfileState;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.diagnostic.Logger;
-import krasa.visualvm.MyConfigurable;
-import krasa.visualvm.executor.RunVisualVMExecutor;
+import krasa.renderdoc.MyConfigurable;
+import krasa.renderdoc.executor.RunRenderDocExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.concurrency.Promise;
 
-public class RunVisualVMRunner extends DefaultJavaProgramRunner {
-	private static final Logger log = Logger.getInstance(DebugVisualVMRunner.class.getName());
+public class RunRenderDocRunner extends DefaultJavaProgramRunner {
+	private static final Logger log = Logger.getInstance(DebugRenderDocRunner.class.getName());
 
 	@NotNull
 	public String getRunnerId() {
-		return RunVisualVMExecutor.RUN_WITH_VISUAL_VM;
+		return RunRenderDocExecutor.RUN_WITH_RENDER_DOC;
 	}
 
 	public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
-		return executorId.equals(RunVisualVMExecutor.RUN_WITH_VISUAL_VM) && (profile instanceof ModuleRunProfile || profile instanceof JarApplicationConfiguration) && !(profile instanceof RemoteConfiguration);
+		return executorId.equals(RunRenderDocExecutor.RUN_WITH_RENDER_DOC) && (profile instanceof ModuleRunProfile || profile instanceof JarApplicationConfiguration) && !(profile instanceof RemoteConfiguration);
 	}
 
 	@Override
@@ -72,14 +72,14 @@ public class RunVisualVMRunner extends DefaultJavaProgramRunner {
 	protected RunContentDescriptor doExecute(@NotNull RunProfileState state, @NotNull ExecutionEnvironment env)
 			throws ExecutionException {
 		RunContentDescriptor runContentDescriptor = super.doExecute(state, env);
-		RunnerUtils.runVisualVM(this, env, state);
+		RunnerUtils.runRenderDoc(this, env, state);
 		return runContentDescriptor;
 	}
 
 	@Override
 	protected @NotNull Promise<RunContentDescriptor> doExecuteAsync(@NotNull TargetEnvironmentAwareRunProfileState state, @NotNull ExecutionEnvironment env) throws ExecutionException {
 		Promise<RunContentDescriptor> runContentDescriptorPromise = super.doExecuteAsync(state, env);
-		RunnerUtils.runVisualVM(this, env, state);
+		RunnerUtils.runRenderDoc(this, env, state);
 		return runContentDescriptorPromise;
 	}
 }

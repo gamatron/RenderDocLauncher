@@ -1,4 +1,4 @@
-package krasa.visualvm;
+package krasa.renderdoc;
 
 import com.intellij.openapi.diagnostic.Logger;
 

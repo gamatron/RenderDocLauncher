@@ -1,4 +1,4 @@
-package krasa.visualvm.action;
+package krasa.renderdoc.action;
 
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ProcessProxyFactory;

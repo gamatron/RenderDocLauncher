@@ -1,17 +1,17 @@
 <idea-plugin version="2">
-	<id>VisualVMLauncher</id>
-	<name>VisualVM Launcher</name>
+	<id>RenderDocLauncher</id>
+	<name>RenderDoc Launcher</name>
 
-	<vendor url="https://github.com/krasa/VisualVMLauncher" email="vojta.krasa@gmail.com">Vojtech
+	<vendor url="https://github.com/gamatron/RenderDocLauncher" email="vojta.krasa@gmail.com">Vojtech
 		Krasa
 	</vendor>
 
 	<description><![CDATA[
-     <a href="https://visualvm.github.io/">VisualVM</a> integration.<br/>
-     Use buttons from the main toolbar to start VisualVM along with executed application,
+     <a href="https://renderdoc.org/">RenderDoc</a> integration.<br/>
+     Use buttons from the main toolbar to start RenderDoc along with executed application,
      or button next to the console window of already started application.                    
         <br> <br>
-        <a href="https://www.paypal.me/VojtechKrasa">Donations</a> | <a href="https://github.com/krasa/VisualVMLauncher/">GitHub</a> | <a href="https://github.com/krasa/VisualVMLauncher/issues">Issues</a>
+        <a href="https://github.com/gamatron/RenderDocLauncher/">GitHub</a> | <a href="https://github.com/gamatron/RenderDocLauncher/issues">Issues</a>
       ]]></description>
 
 
@@ -20,35 +20,35 @@
 
 	<actions>
 		<action
-				id="krasa.visualvm.action.StartVisualVMMainToolbarAction"
-				class="krasa.visualvm.action.StartVisualVMMainToolbarAction"
-				icon="/krasa/visualvm/svg/console16.svg"
-				text="Start VisualVM"
-				description="Start VisualVM with selectable JDK">
+				id="krasa.renderdoc.action.StartRenderDocMainToolbarAction"
+				class="krasa.renderdoc.action.StartRenderDocMainToolbarAction"
+				icon="/krasa/renderdoc/svg/console16.svg"
+				text="Start RenderDoc"
+				description="Start RenderDoc with selectable JDK">
 			<add-to-group group-id="MainToolBar" anchor="last"/>
 		</action>
 		<!--		<action-->
-		<!--				id="krasa.visualvm.action.FocusVisualVMAction"-->
-		<!--				class="krasa.visualvm.action.FocusVisualVMAction"-->
-		<!--				icon="/krasa/visualvm/svg/console16.svg"-->
-		<!--				text="FocusVisualVMAction"-->
+		<!--				id="krasa.renderdoc.action.FocusRenderDocAction"-->
+		<!--				class="krasa.renderdoc.action.FocusRenderDocAction"-->
+		<!--				icon="/krasa/renderdoc/svg/console16.svg"-->
+		<!--				text="FocusRenderDocAction"-->
 		<!--				description="xxx">-->
 		<!--			<add-to-group group-id="MainToolBar" anchor="last"/>-->
 		<!--		</action>-->
 	</actions>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<notificationGroup id="VisualVMLauncher" displayType="BALLOON" isLogByDefault="true"/>
+		<notificationGroup id="RenderDocLauncher" displayType="BALLOON" isLogByDefault="true"/>
 
-		<executor implementation="krasa.visualvm.executor.RunVisualVMExecutor"/>
-		<programRunner implementation="krasa.visualvm.runner.RunVisualVMRunner"/>
-		<programRunner implementation="krasa.visualvm.runner.DebugVisualVMRunner"/>
-		<executor implementation="krasa.visualvm.executor.DebugVisualVMExecutor"/>
-		<java.programPatcher implementation="krasa.visualvm.integration.VisualVMJavaProgramPatcher"/>
-		<consoleActionsPostProcessor implementation="krasa.visualvm.integration.VisualVMConsoleActionsPostProcessor"/>
-		<applicationConfigurable instance="krasa.visualvm.MyConfigurable" id="VisualVMLauncher"
-								 displayName="VisualVM Launcher"/>
-		<applicationService serviceImplementation="krasa.visualvm.ApplicationSettingsService"/>
+		<executor implementation="krasa.renderdoc.executor.RunRenderDocExecutor"/>
+		<programRunner implementation="krasa.renderdoc.runner.RunRenderDocRunner"/>
+		<programRunner implementation="krasa.renderdoc.runner.DebugRenderDocRunner"/>
+		<executor implementation="krasa.renderdoc.executor.DebugRenderDocExecutor"/>
+		<java.programPatcher implementation="krasa.renderdoc.integration.RenderDocJavaProgramPatcher"/>
+		<consoleActionsPostProcessor implementation="krasa.renderdoc.integration.RenderDocConsoleActionsPostProcessor"/>
+		<applicationConfigurable instance="krasa.renderdoc.MyConfigurable" id="RenderDocLauncher"
+								 displayName="RenderDoc Launcher"/>
+		<applicationService serviceImplementation="krasa.renderdoc.ApplicationSettingsService"/>
 	</extensions>
 
 	<depends>com.intellij.modules.java</depends>

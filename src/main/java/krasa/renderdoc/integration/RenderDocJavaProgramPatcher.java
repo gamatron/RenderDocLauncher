@@ -1,4 +1,4 @@
-package krasa.visualvm.integration;
+package krasa.renderdoc.integration;
 
 import com.intellij.execution.CantRunException;
 import com.intellij.execution.Executor;
@@ -13,14 +13,14 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkAdditionalData;
 import com.intellij.openapi.projectRoots.SdkTypeId;
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl;
-import krasa.visualvm.Hacks;
-import krasa.visualvm.LogHelper;
-import krasa.visualvm.action.StartVisualVMConsoleAction;
+import krasa.renderdoc.Hacks;
+import krasa.renderdoc.LogHelper;
+import krasa.renderdoc.action.StartRenderDocConsoleAction;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.jetbrains.annotations.Nullable;
 
-public class VisualVMJavaProgramPatcher extends JavaProgramPatcher {
-	private static final Logger log = Logger.getInstance(VisualVMJavaProgramPatcher.class.getName());
+public class RenderDocJavaProgramPatcher extends JavaProgramPatcher {
+	private static final Logger log = Logger.getInstance(RenderDocJavaProgramPatcher.class.getName());
 	long lastExecution;
 
 	@Override
@@ -34,8 +34,8 @@ public class VisualVMJavaProgramPatcher extends JavaProgramPatcher {
 			if (System.currentTimeMillis() - lastExecution > 1000) {
 				LogHelper.print("patchJavaParameters " + name + " patching", this);
 
-				VisualVMContext visualVMContext = patch(configuration, javaParameters);
-				StartVisualVMConsoleAction.setVisualVMContextToRecentlyCreated(visualVMContext);
+				RenderDocContext visualVMContext = patch(configuration, javaParameters);
+				StartRenderDocConsoleAction.setRenderDocContextToRecentlyCreated(visualVMContext);
 				lastExecution = System.currentTimeMillis();
 			}
 		} else {
@@ -43,15 +43,15 @@ public class VisualVMJavaProgramPatcher extends JavaProgramPatcher {
 		}
 	}
 
-	private VisualVMContext patch(RunProfile configuration, JavaParameters javaParameters) {
+	private RenderDocContext patch(RunProfile configuration, JavaParameters javaParameters) {
 		String jdkPath = getJdkPath(javaParameters);
 
-		final Long appId = VisualVMHelper.getNextID();
+		final Long appId = RenderDocHelper.getNextID();
 		LogHelper.print("Patching: jdkPath=" + jdkPath + "; appId=" + appId, this);
-		javaParameters.getVMParametersList().prepend("-Dvisualvm.id=" + appId);
+		javaParameters.getVMParametersList().prepend("-Drenderdoc.id=" + appId);
 
 
-		VisualVMContext visualVMContext = new VisualVMContext(appId, jdkPath, resolveModule(configuration));
+		RenderDocContext visualVMContext = new RenderDocContext(appId, jdkPath, resolveModule(configuration));
 		visualVMContext.save();
 		return visualVMContext;
 	}

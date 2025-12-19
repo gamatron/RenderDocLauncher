@@ -1,4 +1,4 @@
-package krasa.visualvm;
+package krasa.renderdoc;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
@@ -25,7 +25,7 @@ public class MyConfigurable implements Configurable {
 
 	@Nls
 	public String getDisplayName() {
-		return "VisualVM Launcher";
+		return "RenderDoc Launcher";
 	}
 
 	@Nullable

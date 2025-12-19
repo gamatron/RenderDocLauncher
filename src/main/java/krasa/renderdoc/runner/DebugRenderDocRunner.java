@@ -1,4 +1,4 @@
-package krasa.visualvm.runner;
+package krasa.renderdoc.runner;
 
 import com.intellij.debugger.impl.GenericDebuggerRunner;
 import com.intellij.execution.ExecutionException;
@@ -11,18 +11,18 @@ import com.intellij.execution.remote.RemoteConfiguration;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.execution.ui.RunContentDescriptor;
 import com.intellij.openapi.diagnostic.Logger;
-import krasa.visualvm.LogHelper;
-import krasa.visualvm.MyConfigurable;
-import krasa.visualvm.executor.DebugVisualVMExecutor;
+import krasa.renderdoc.LogHelper;
+import krasa.renderdoc.MyConfigurable;
+import krasa.renderdoc.executor.DebugRenderDocExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DebugVisualVMRunner extends GenericDebuggerRunner {
-	private static final Logger log = Logger.getInstance(DebugVisualVMRunner.class.getName());
+public class DebugRenderDocRunner extends GenericDebuggerRunner {
+	private static final Logger log = Logger.getInstance(DebugRenderDocRunner.class.getName());
 
 	@NotNull
 	public String getRunnerId() {
-		return DebugVisualVMExecutor.EXECUTOR_ID;
+		return DebugRenderDocExecutor.EXECUTOR_ID;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class DebugVisualVMRunner extends GenericDebuggerRunner {
 	}
 
 	public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
-		return executorId.equals(DebugVisualVMExecutor.EXECUTOR_ID) && (profile instanceof ModuleRunProfile || profile instanceof JarApplicationConfiguration)
+		return executorId.equals(DebugRenderDocExecutor.EXECUTOR_ID) && (profile instanceof ModuleRunProfile || profile instanceof JarApplicationConfiguration)
 				&& !(profile instanceof RemoteConfiguration);
 	}
 
@@ -48,7 +48,7 @@ public class DebugVisualVMRunner extends GenericDebuggerRunner {
 														RemoteConnection connection, boolean pollConnection) throws ExecutionException {
 		RunContentDescriptor runContentDescriptor = super.attachVirtualMachine(state, env, connection, pollConnection);
 		LogHelper.print("#attachVirtualMachine", this);
-		RunnerUtils.runVisualVM(this, env, state);
+		RunnerUtils.runRenderDoc(this, env, state);
 		return runContentDescriptor;
 	}
 
