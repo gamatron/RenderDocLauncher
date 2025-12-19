@@ -52,11 +52,11 @@ public class RunRenderDocRunner extends DefaultJavaProgramRunner {
 
 	@NotNull
 	public String getRunnerId() {
-		return RunRenderDocExecutor.RUN_WITH_VISUAL_VM;
+		return RunRenderDocExecutor.RUN_WITH_RENDER_DOC;
 	}
 
 	public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
-		return executorId.equals(RunRenderDocExecutor.RUN_WITH_VISUAL_VM) && (profile instanceof ModuleRunProfile || profile instanceof JarApplicationConfiguration) && !(profile instanceof RemoteConfiguration);
+		return executorId.equals(RunRenderDocExecutor.RUN_WITH_RENDER_DOC) && (profile instanceof ModuleRunProfile || profile instanceof JarApplicationConfiguration) && !(profile instanceof RemoteConfiguration);
 	}
 
 	@Override

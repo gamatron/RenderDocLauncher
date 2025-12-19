@@ -12,7 +12,7 @@ import com.intellij.execution.executors.DefaultRunExecutor;
 public class DebugRenderDocExecutor extends DefaultRunExecutor {
 	@NonNls
 	public static final String EXECUTOR_ID = "Debug with RenderDoc";
-	public static final String DEBUG_WITH_VISUAL_VM = "DebugWithRenderDoc";
+	public static final String DEBUG_WITH_RENDER_DOC = "DebugWithRenderDoc";
 
 	@NotNull
 	public String getToolWindowId() {
@@ -38,7 +38,7 @@ public class DebugRenderDocExecutor extends DefaultRunExecutor {
 
 	@NotNull
 	public String getActionName() {
-		return DEBUG_WITH_VISUAL_VM;
+		return DEBUG_WITH_RENDER_DOC;
 	}
 
 	@NotNull

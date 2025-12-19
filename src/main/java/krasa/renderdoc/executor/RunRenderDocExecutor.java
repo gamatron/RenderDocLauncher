@@ -10,8 +10,8 @@ import com.intellij.execution.executors.DefaultRunExecutor;
 
 public class RunRenderDocExecutor extends DefaultRunExecutor {
 
-	public static final String RUN_WITH_VISUAL_VM = "Run with RenderDoc";
-	public static final String RUN_WITH_VISUAL_VM1 = "RunWithRenderDoc";
+	public static final String RUN_WITH_RENDER_DOC = "Run with RenderDoc";
+	public static final String RUN_WITH_RENDER_DOC1 = "RunWithRenderDoc";
 
 	@NotNull
 	public String getToolWindowId() {
@@ -32,22 +32,22 @@ public class RunRenderDocExecutor extends DefaultRunExecutor {
 	}
 
 	public String getDescription() {
-		return RUN_WITH_VISUAL_VM;
+		return RUN_WITH_RENDER_DOC;
 	}
 
 	@NotNull
 	public String getActionName() {
-		return RUN_WITH_VISUAL_VM1;
+		return RUN_WITH_RENDER_DOC1;
 	}
 
 	@NotNull
 	public String getId() {
-		return RUN_WITH_VISUAL_VM;
+		return RUN_WITH_RENDER_DOC;
 	}
 
 	@NotNull
 	public String getStartActionText() {
-		return RUN_WITH_VISUAL_VM;
+		return RUN_WITH_RENDER_DOC;
 	}
 
 	public String getContextActionId() {
